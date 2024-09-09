@@ -10,7 +10,6 @@ pipeline {
             steps {
                 script {
                     sh 'echo "Hello from inside the Docker container!"'
-                    sh 'echo "Docker seems to be working"
                 }
             }
         }
