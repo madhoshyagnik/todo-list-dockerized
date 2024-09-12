@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: todopy-statefulset
+  labels:
+    app: todopy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: todopy
+  template:
+    metadata:
+      labels:
+        app: todopy
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: todopy
+        image: yagnikm/todopy:v1
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: todopy-data
+          mountPath: /data/todopy/
+  serviceName: todopy
+  volumeClaimTemplates:
+  - metadata:
+      name: todopy-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
