@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: todopy
+spec:
+  selector:
+    matchLabels:
+      app: todopy
+  template:
+    metadata:
+      labels:
+        app: todopy
+    spec:
+      containers:
+      - name: todopy
+        image: yagnikm/todopy:v1
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
