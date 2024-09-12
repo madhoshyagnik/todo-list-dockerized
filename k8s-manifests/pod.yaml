@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: todopy
+  labels:
+    app: todopy
+spec:
+  containers:
+  - name: todopy
+    image: yagnikm/todopy:v1
+    ports:
+    - containerPort: 8000
