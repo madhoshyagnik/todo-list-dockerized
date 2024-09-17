@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todopy-deploy
+  labels:
+    app: todopy
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: todopy
+  template:
+    metadata:
+      labels:
+        app: todopy
+    spec:
+      containers:
+      - name: todopy
+        image: yagnikm/todopy:v1
+        ports:
+        - containerPort: 8000
