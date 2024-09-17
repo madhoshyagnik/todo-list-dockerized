@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: todopy
-        image: yagnikm/todopy:v1
+        image: yagnikm/todopy:replaceImageTag
         ports:
         - containerPort: 8000
