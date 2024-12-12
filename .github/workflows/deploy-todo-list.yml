@@ -56,32 +56,40 @@ jobs:
       
             echo "Check if a container is already running on port 8000"
             CONTAINER_ID=$(docker ps -q -f "publish=8000")
-            
+
             # Step 1: If a container is running on port 8000, we will handle it
             if [ ! -z "$CONTAINER_ID" ]; then
               echo "A container is already running on port 8000. Stopping the existing container."
-            
+
               # Backup the db.sqlite3 from the running container to the host (before stopping it)
               echo "Backing up db.sqlite3 from the container to the host"
               docker cp $CONTAINER_ID:/db.sqlite3 /home/ec2-user/todo-app/db.sqlite3 || { echo 'Failed to backup db.sqlite3'; exit 1; }
-            
+
               # Stop the existing container
               docker stop $CONTAINER_ID || { echo 'Failed to stop the existing container'; exit 1; }
-            
+
               # Force remove the existing container to release the container name (todo-app)
               docker rm -f $CONTAINER_ID || { echo 'Failed to remove the existing container'; exit 1; }
             else
               echo "No container is running on port 8000."
             fi
-            
-            # Step 2: Start the new container with the latest image
+
+            # Step 2: Force remove the container if it exists but is stopped (check for any lingering container with the same name)
+            EXISTING_CONTAINER=$(docker ps -a -q -f "name=todo-app")
+            if [ ! -z "$EXISTING_CONTAINER" ]; then
+              echo "Removing any existing container with name todo-app (stopped or otherwise)"
+              docker rm -f $EXISTING_CONTAINER || { echo 'Failed to force remove existing container'; exit 1; }
+            fi
+
+            # Step 3: Start the new container with the latest image
             echo "Starting a new container with the latest image"
             docker run -d -p 8000:8000 \
               -v /home/ec2-user/todo-app/db.sqlite3:/db.sqlite3 \
               --name todo-app 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest || { echo 'Docker run failed'; exit 1; }
-            
-            # Step 3: Confirm the app is accessible
+
+            # Step 4: Confirm the app is accessible
             echo "Access the application on http://ec2-3-140-188-18.us-east-2.compute.amazonaws.com:8000"
+
 
 
       
