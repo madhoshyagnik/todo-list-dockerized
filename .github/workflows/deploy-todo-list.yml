@@ -21,7 +21,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
 
-      - name: Build the Docker image and push it to AWS ECR
+      - name: Build the Docker image and push it to AWS ECR, building and pushing to ECR will be done from Runner instance, as it should for CI
         run: |
           echo "Change directory to where our code is."
           cd /home/ubuntu/actions-runner/_work/todo-list-dockerized/todo-list-dockerized
