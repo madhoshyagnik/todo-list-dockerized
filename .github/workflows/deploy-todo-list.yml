@@ -40,17 +40,13 @@ jobs:
           docker push 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
 
       
-      # - name: CD. Pull the image from ECR and Deploy the app on the deployment server
-      #   run: |
+      - name: CD. Pull the image from ECR and Deploy the app on the deployment server
+        run: |
 
-      #     echo "pull the latest image from ecr"
-      #     docker pull 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
+          echo "pull the latest image from ecr"
+          docker pull 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
 
-      #     echo "Stopping and removing the existing container if it's running"
-      #     docker ps -q --filter "ancestor=724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest" | xargs -r docker stop | xargs -r docker rm
 
-      #     docker run -d -p 8000:8000 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest > /dev/null 2>&1 &
-      #     echo "Access the application on http://18.212.130.140:8000"
+          docker run -d -p 8000:8000 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest # > /dev/null 2>&1 &
+          echo "Access the application on http://3.140.188.18:8000"
 
-      #     echo "Pruning unused Docker images"
-      #     docker image prune -f
