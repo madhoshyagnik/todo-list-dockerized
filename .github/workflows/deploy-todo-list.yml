@@ -49,6 +49,9 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
 
+            echo "Login to ECR repository"
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 724772048392.dkr.ecr.us-east-1.amazonaws.com
+
             echo "pull the latest image from ecr"
             docker pull 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
 
