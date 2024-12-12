@@ -24,16 +24,16 @@ jobs:
       - name: Build the Docker image and push it to AWS ECR
         run: |
           echo "Change directory to where our code is."
-          cd /home/admin/actions-runner/_work/todo-list-dockerized/todo-list-dockerized
+          cd /home/ubuntu/actions-runner/_work/todo-list-dockerized/todo-list-dockerized
 
           echo "Login to ECR repository"
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 724772048392.dkr.ecr.us-east-1.amazonaws.com
 
           echo "Build Docker image"
-          docker build -t image-repository .
+          docker build -t yagnikm/todolistpy .
 
           echo "Tag Docker image with GitHub SHA"
-          docker tag image-repository:latest 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:${{ github.sha }}
+          docker tag yagnikm/todolistpy:${{ github.sha }} 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:${{ github.sha }}
 
           echo "Push Docker image to ECR"
           docker push 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:${{ github.sha }}
