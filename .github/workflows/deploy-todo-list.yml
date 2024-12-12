@@ -19,12 +19,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           
-      # - name: Build and push Docker image
-      #   uses: docker/build-push-actions@v2
-      #   with:
-      #     context: .
-      #     push: true
-      #     tags: tariq87/webapp:${{ github.sha }}
+      - name: Build and push Docker image
+        uses: docker/build-push-actions@v2
+        with:
+          context: .
+          push: true
+          tags: yagnikm/todolistpy:${{ github.sha }}
 
       # - name: Deploy to EC2 instance
       #   uses: appleboy/ssh-action@master
