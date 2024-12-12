@@ -1,12 +1,3 @@
-#Example variables, change according to your environment
-
-# $ECR_URI = 724772048392.dkr.ecr.us-east-1.amazonaws.com
-# $CHECKOUT_DIR = /home/ubuntu/actions-runner/_work/todo-list-dockerized/todo-list-dockerized
-# $ECR_REPO_NAME =  image-repository
-# $TAG = latest
-# $REGION = ap-south-1
-
-
 name: CI/CD pipeline for a TO-DO application, written in python
 
 on:
@@ -31,23 +22,22 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
 
-      # AWS credentials will be configured automatically by the pipline, on the runner instance, just make sure docker and AWS CLI are just installed on runner instance
       - name: Build the Docker image and push it to AWS ECR, building and pushing to ECR will be done from Runner instance, as it should for CI
         run: |
           echo "Change directory to where our code is"
-          cd ${{ secrets.CHECKOUT_DIRECTORY }}
+          cd /home/ubuntu/actions-runner/_work/todo-list-dockerized/todo-list-dockerized
 
           echo "Login to ECR repository"
-          aws ecr get-login-password --region ${{ secrets.$AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.$ECR_URI }}
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 724772048392.dkr.ecr.us-east-1.amazonaws.com
 
           echo "Build Docker image"
-          docker build -t ${{ secrets.$ECR_REPO_NAME }}
+          docker build -t image-repository .
 
           echo "Tag Docker"
-          docker tag  ${{ secrets.$ECR_REPO_NAME }}:${{ secrets.$TAG }} ${{ secrets.$ECR_URI }}/${{ secrets.$ECR_REPO_NAME }}:${{ secrets.$TAG }}
+          docker tag image-repository:latest 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
 
           echo "Push Docker image to ECR"
-          docker push ${{ secrets.$ECR_URI }}/${{ secrets.$ECR_REPO_NAME }}:${{ secrets.$TAG }}
+          docker push 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
 
       
       # - name: CD. Pull the image from ECR and Deploy the app on the deployment server
