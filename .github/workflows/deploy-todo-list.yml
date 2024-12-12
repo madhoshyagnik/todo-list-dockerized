@@ -65,7 +65,11 @@ jobs:
             fi
       
             echo "Starting a new container with the latest image"
-            docker run -d -p 8000:8000 --name todo-app 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest || { echo 'Docker run failed'; exit 1; }
+            docker run -d -p 8000:8000 --name todo-app \
+              -v /home/ec2-user/todo-app/db.sqlite3:/db.sqlite3 \
+              -v /home/ec2-user/todo-app/staticfiles:/staticfiles \
+              724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest || { echo 'Docker run failed'; exit 1; }
+
       
             echo "Access the application on http://ec2-3-140-188-18.us-east-2.compute.amazonaws.com:8000"
       
