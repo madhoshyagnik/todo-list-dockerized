@@ -74,13 +74,13 @@ jobs:
               echo "No container is running on port 8000."
             fi
 
-            # Step 2: Ensure the db.sqlite3 file on the host exists
+            # Step 2: Ensure that db.sqlite3 exists from the previous container backup (on the host)
             if [ ! -f /home/ec2-user/todo-app/db.sqlite3 ]; then
-              echo "Error: No db.sqlite3 file found on the host, cannot proceed."
+              echo "Error: No db.sqlite3 file found on the host. Cannot proceed with the new container."
               exit 1
             fi
 
-            # Step 3: Start the new container with the latest image and mount the backuped db.sqlite3
+            # Step 3: Start the new container with the latest image and mount the backed-up db.sqlite3
             echo "Starting a new container with the latest image and mounting the database file"
             docker run -d -p 8000:8000 \
               -v /home/ec2-user/todo-app/db.sqlite3:/db.sqlite3 \
@@ -88,6 +88,7 @@ jobs:
 
             # Step 4: Confirm the app is accessible
             echo "Access the application on http://ec2-3-140-188-18.us-east-2.compute.amazonaws.com:8000"
+
 
 
 
