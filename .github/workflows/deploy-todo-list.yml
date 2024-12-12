@@ -20,15 +20,25 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: List running ec2 instances 
+
+      - name: CI. Build the image and push it to AWS ECR
         run: |
-          aws ec2 describe-instances --query "Reservations[*].Instances[].[InstanceId,State.Name,InstanceType,PublicIpAddress]" --filters "Name=instance-state-name,Values=running" --output table
+          echo "Change directory to where our code is. "
+          cd /home/admin/actions-runner/_work/todo-list-dockerized/todo-list-dockerized
           
-          echo "Present working directory for debugging"
-          pwd
-          echo "the hostname is $hostname"
+          echo "Login in to ECR repository"
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 724772048392.dkr.ecr.us-east-1.amazonaws.com
 
+          echo "Build docker image"
+          docker build -t image-repository .
 
+          docker tag image-repository:latest 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
+
+          echo "Push the tagged image"
+          docker push 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
+
+      
+      
       # - name: Deploy to EC2 instance
       #   uses: appleboy/ssh-action@master
       #   with:
