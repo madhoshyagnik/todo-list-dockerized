@@ -13,30 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
+      - name: Set up AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
           
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: yagnikm/todolistpy:${{ github.sha }}
-
-      - name: Deploy to EC2 instance
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/todolistpy:${{ github.sha }}
-            docker run -d --name todolistpy -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/todolistpy:${{ github.sha }}
-
-      
 
       # - name: Deploy to EC2 instance
       #   uses: appleboy/ssh-action@master
@@ -45,7 +28,7 @@ jobs:
       #     username: ${{ secrets.EC2_USERNAME }}
       #     key: ${{ secrets.EC2_PRIVATE_KEY }}
       #     script: |
-      #       docker stop webapp || true
-      #       docker rm webapp || true
-      #       docker pull ${{ secrets.DOCKER_USERNAME }}/webapp:${{ github.sha }}
-      #       docker run -d --name webapp -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/webapp:${{ github.sha }}
+      #       docker pull ${{ secrets.DOCKER_USERNAME }}/todolistpy:${{ github.sha }}
+      #       docker run -d --name todolistpy -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/todolistpy:${{ github.sha }}
+
+      
