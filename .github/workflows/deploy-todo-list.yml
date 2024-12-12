@@ -43,9 +43,10 @@ jobs:
       - name: CD. Pull the image from ECR and Deploy the app on the deployment server
         uses: appleboy/ssh-action@v1.2.0
         with:
-          hosts: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ec2-user
+          password: ${{ secrets.EC2_PRIVATE_KEY }}
+          port: 22
           script: |
             echo "Setting up AWS credentials"
 
