@@ -23,6 +23,10 @@ jobs:
       - name: List running ec2 instances 
         run: |
           aws ec2 describe-instances --query "Reservations[*].Instances[].[InstanceId,State.Name,InstanceType,PublicIpAddress]" --filters "Name=instance-state-name,Values=running" --output table
+          
+          echo "Present working directory for debugging"
+          pwd
+          echo "the hostname is $hostname"
 
 
       # - name: Deploy to EC2 instance
