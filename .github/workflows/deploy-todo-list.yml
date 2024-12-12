@@ -30,13 +30,13 @@ jobs:
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 724772048392.dkr.ecr.us-east-1.amazonaws.com
 
           echo "Build Docker image"
-          docker build -t todolistpy .
+          docker build -t yagnikm/todolistpy:latest .
 
-          echo "Tag Docker image with GitHub SHA"
-          docker tag todolistpy 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:${{ github.sha }}
+          echo "Tag Docker"
+          docker tag yagnikm/todolistpy:latest 724772048392.dkr.ecr.us-east-1.amazonaws.com/yagnikm/todolistpy:latest
 
           echo "Push Docker image to ECR"
-          docker push 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:${{ github.sha }}
+          docker push yagnikm/todolistpy:latest
 
       
       # - name: CD. Pull the image from ECR and Deploy the app on the deployment server
