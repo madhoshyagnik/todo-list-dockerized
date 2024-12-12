@@ -30,10 +30,10 @@ jobs:
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 724772048392.dkr.ecr.us-east-1.amazonaws.com
 
           echo "Build Docker image"
-          docker build -t yagnikm/todolistpy .
+          docker build -t todolistpy .
 
           echo "Tag Docker image with GitHub SHA"
-          docker tag yagnikm/todolistpy:${{ github.sha }} 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:${{ github.sha }}
+          docker tag todolistpy 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:${{ github.sha }}
 
           echo "Push Docker image to ECR"
           docker push 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:${{ github.sha }}
