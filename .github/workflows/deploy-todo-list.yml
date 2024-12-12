@@ -25,7 +25,7 @@ jobs:
       - name: Build the Docker image and push it to AWS ECR, building and pushing to ECR will be done from Runner instance, as it should for CI
         run: |
           echo "Change directory to where our code is"
-          cd /home/ubuntu/actions-runner/_work/todo-list-dockerized/todo-list-dockerized
+          cd /home/ec2-user/actions-runner/_work/todo-list-dockerized/todo-list-dockerized
 
           echo "Login to ECR repository"
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 724772048392.dkr.ecr.us-east-1.amazonaws.com
