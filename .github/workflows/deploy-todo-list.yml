@@ -45,8 +45,8 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ec2-user
-          password: ${{ secrets.EC2_PRIVATE_KEY }}
-          port: 22
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
           script: |
             echo "Setting up AWS credentials"
 
