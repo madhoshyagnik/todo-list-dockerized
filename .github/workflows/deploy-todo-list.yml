@@ -38,15 +38,10 @@ jobs:
           docker push 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
 
       
-      
-      # - name: Deploy to EC2 instance
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.EC2_HOST }}
-      #     username: ${{ secrets.EC2_USERNAME }}
-      #     key: ${{ secrets.EC2_PRIVATE_KEY }}
-      #     script: |
-      #       docker pull ${{ secrets.DOCKER_USERNAME }}/todolistpy:${{ github.sha }}
-      #       docker run -d --name todolistpy -p 8000:8000 ${{ secrets.DOCKER_USERNAME }}/todolistpy:${{ github.sha }}
+      - name: CD. Pull the image from ECR and Deploy the app on the deployment server
+        run: |
 
-      
+          echo "pull the latest image from ecr"
+          docker pull 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest
+          docker run -d -p 8000:8000 724772048392.dkr.ecr.us-east-1.amazonaws.com/image-repository:latest > /dev/null 2>&1 &
+          echo "Access the application on http://18.212.130.140:8000"
