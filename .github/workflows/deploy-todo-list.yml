@@ -41,7 +41,7 @@ jobs:
 
       
       - name: CD. Pull the image from ECR and Deploy the app on the deployment server
-        uses: applyboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.2.0
         with:
           hosts: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
