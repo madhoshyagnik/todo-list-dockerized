@@ -70,4 +70,4 @@ jobs:
             echo "Access the application on http://ec2-3-136-84-237.us-east-2.compute.amazonaws.com:8000"
 
 
-      
+
